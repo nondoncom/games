@@ -5,6 +5,7 @@ import time
 
 from utils import * 
 from puzzle import NPuzzle
+from heap import MinHeap
 
 def _countInversions(board):
   """
@@ -60,18 +61,24 @@ def solve(board,
   A* search to finde solution
   """
   boards = set()
-  puzzles = PriorityQueue()
+  #puzzles = PriorityQueue()
+  puzzles = MinHeap()
   zeroPos = NPuzzle.findZero(board)
   npuzzle = NPuzzle(board,zeroPos,0)
   npuzzle.cost = totalCost(npuzzle.board)
   puzzles.put(npuzzle)
   searchMaxDepth = 0
   while not puzzles.empty():
-    npuzzle = puzzles.get()
+    if randint(0,100) < 5:
+      index = randint(0, puzzles.size() - 1)
+      print("Rand From", index)
+      npuzzle = puzzles.getFrom(index)
+    else:
+      npuzzle = puzzles.get()
     
     if searchMaxDepth < npuzzle.depth:
       searchMaxDepth = npuzzle.depth
-      print(searchMaxDepth, npuzzle.cost, puzzles.qsize())
+      #print(searchMaxDepth, npuzzle.cost, puzzles.qsize())
       
     if isDone(npuzzle):
       return npuzzle

@@ -3,7 +3,6 @@ import copy
 import math
 from utils import manhattanDistance, swap
 
-
 class NPuzzle():
   def __init__(self, board, zero=None, cost=0, depth=0, moves=[]):
     self.board = copy.deepcopy(board)
@@ -21,6 +20,18 @@ class NPuzzle():
     #return (self.cost+self.depth) < (other.cost+other.depth)
     return ((self.bStart < other.bStart) or ((self.bStart == other.bStart) and (self.cost+self.depth) < (other.cost+other.depth)))
     #return (self.cost) < (other.cost)
+  def __gt__(self, other):
+    return ((self.bStart > other.bStart) or ((self.bStart == other.bStart) and (self.cost+self.depth) > (other.cost+other.depth)))
+
+  def __eq__(self, other):
+    return ((self.bStart == other.bStart) and (self.cost+self.depth) == (other.cost+other.depth))
+  
+  def __ge__(self, other):
+    return self > other or self == other 
+    
+  def __le__(self, other):
+    return self < other or self == other 
+  
   
   def __str__(self):
     return str(self.board)
